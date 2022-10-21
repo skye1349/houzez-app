@@ -2,7 +2,9 @@ pipeline {
   agent any
   tools {nodejs "node16.17"}
   environment {
-    S3bucket_name = 'skye20221020tf'
+    S3bucket_name = 'houzezapp-skye1016'
+     repo_path = '/var/lib/jenkins/workspace/skyefront1007'
+
   }
   stages {
   stage('SonarCloud') {
@@ -46,7 +48,8 @@ pipeline {
         steps {
             echo 'Deploying to AWS s3 bucket.'
             withAWS(region:'ap-southeast-2',credentials:'9f5a5bbb-f9c9-45ff-abcc-45157ed47fcc') {
-                sh 'aws s3 cp index.html s3://skye20221020tf'
+                sh 'sh 'aws s3 sync $repo_path s3://houzezapp-skye1016/ --exclude "$exclude_file"'
+'
             }
         };
     }
