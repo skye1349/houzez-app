@@ -48,8 +48,7 @@ pipeline {
         steps {
             echo 'Deploying to AWS s3 bucket.'
             withAWS(region:'ap-southeast-2',credentials:'9f5a5bbb-f9c9-45ff-abcc-45157ed47fcc') {
-                sh 'sh 'aws s3 sync $repo_path s3://houzezapp-skye1016/ --exclude "$exclude_file"'
-'
+              'sh 'aws s3 sync $repo_path s3://houzezapp-skye1016/ --exclude "$exclude_file"'
             }
         };
     }
