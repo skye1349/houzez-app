@@ -18,7 +18,7 @@ pipeline {
         -Dsonar.java.binaries=build/classes/java/ \
         -Dsonar.projectKey=$PROJECT_NAME \
         -Dsonar.exclusions=**/package-lock.json/**\
-        -Dsonar.sources=scr'''
+        -Dsonar.sources=.'''
          }
         }
       }
