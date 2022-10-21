@@ -32,7 +32,7 @@ pipeline {
       parallel {
         stage('Run Tests') {
           steps {   
-            sh 'echo no tests now'
+            //sh 'echo no tests now'
              sh 'npm run test-c'
           }
         }
