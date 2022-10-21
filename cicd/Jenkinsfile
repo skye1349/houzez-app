@@ -29,8 +29,9 @@ pipeline {
     stage('Test and Build') {
       parallel {
         stage('Run Tests') {
-          //steps {  
-            //sh 'npm run test'
+          steps {
+            sh 'echo no tests now'
+            sh 'npm run test'
           }
         }
         stage('Create Build Artifacts') {
