@@ -1,10 +1,8 @@
-pipeline {
+ipeline {
   agent any
   tools {nodejs "node16.17"}
   environment {
     S3bucket_name = 'houzezapp-skye1016'
-     repo_path = '/var/lib/jenkins/workspace/skyefront1007'
-
   }
   stages {
   stage('SonarCloud') {
@@ -31,9 +29,9 @@ pipeline {
     stage('Test and Build') {
       parallel {
         stage('Run Tests') {
-          steps {
+          steps {   
             sh 'echo no tests now'
-            sh 'npm run test'
+//             sh 'npm run test-- --coverage'
           }
         }
         stage('Create Build Artifacts') {
@@ -44,16 +42,13 @@ pipeline {
       }
     }
 
-    stage('Production') {
-  steps {
-    withAWS(region:"$region",credentials:"$aws_credential") {
-      sh 'aws s3 sync $repo_path s3://houzezapp-skye1016/ --exclude "$exclude_file"'
-      
-//     s3Delete(bucket: "${bucket}", path:'**/*')
-//     s3Upload(bucket: "${bucket}", includePathPattern:'**/*');
-//     s3Upload(bucket: "${bucket}", workingDir:'targetDir', includePathPattern:'**/*');
+    stage('Upload') {
+        steps {
+            echo 'Deploying to AWS s3 bucket.'
+            withAWS(region:'ap-southeast-2',credentials:'9f5a5bbb-f9c9-45ff-abcc-45157ed47fcc') {
+                sh 'aws s3 sync /var/lib/jenkins/workspace/skyefront1007 s3://houzezapp-skye1016/ --exclude "node_modules/*"'
             }
-          }
-        }
+        };
     }
+  }    
 }
