@@ -32,7 +32,7 @@ pipeline {
         stage('Run Tests') {
           steps {   
             sh 'echo no tests now'
-//             sh 'npm run test-- --coverage'
+             sh 'npm run test-c'
           }
         }
         stage('Create Build Artifacts') {
