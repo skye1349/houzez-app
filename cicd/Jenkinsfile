@@ -17,8 +17,8 @@ pipeline {
         sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
         -Dsonar.java.binaries=build/classes/java/ \
         -Dsonar.projectKey=$PROJECT_NAME \
-        sonar.sources=.
-        sonar.exclusions = ./package-lock.json'''
+        -Dsonar.sources=.
+        -Dsonar.exclusions = ./package-lock.json'''
          }
         }
       }
