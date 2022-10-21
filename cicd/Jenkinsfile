@@ -3,7 +3,7 @@ pipeline {
   tools {nodejs "node16.17"}
   environment {
     S3bucket_name = 'skye20221020tf'
-    repo_path = '/var/lib/jenkins/skyefront1007/out'
+    repo_path = '/var/lib/jenkins/workspace/skyefront1007/out'
   }
   stages {
   stage('SonarCloud') {
