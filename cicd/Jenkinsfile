@@ -1,33 +1,26 @@
 pipeline {
   agent any
+  tools {nodejs "node16.17"}
   environment {
-    aws_credential = 'AWS-Sylvon'
-    bucket = 'houzez-app-sylvon'
-    region = 'ap-southeast-2'
-    repo_path = '/var/lib/jenkins/workspace/houzez-app-test1'
-    exclude_file = 'node_modules/*'
-    CI = 'true'
-    HOME = '.'
-    npm_config_cache = 'npm-cache'
+    S3bucket_name = 'skye20221020tf'
   }
-  
   stages {
-    stage('SonarCloud') {
+  stage('SonarCloud') {
   environment {
     SCANNER_HOME = tool 'SonarQubeScanner'
-    ORGANIZATION = 'sylvonau'
-    PROJECT_NAME = 'SylvonAu_houzez-app'
+    ORGANIZATION = "skye1349"
+    PROJECT_NAME = "skye1349_houzez-app"
   }
   steps {
     withSonarQubeEnv('SonarCloudOne') {
         sh '''$SCANNER_HOME/bin/sonar-scanner -Dsonar.organization=$ORGANIZATION \
-        -Dsonar.typescript.tsconfigPath=./tsconfig.json/ \
+        -Dsonar.java.binaries=build/classes/java/ \
         -Dsonar.projectKey=$PROJECT_NAME \
         -Dsonar.sources=.'''
          }
         }
       }
-  
+      
     stage('Install Packages') {
       steps {
         sh 'npm install'
@@ -36,9 +29,8 @@ pipeline {
     stage('Test and Build') {
       parallel {
         stage('Run Tests') {
-          steps {   
-            sh 'echo no tests now'
-            sh 'npm run test'
+          steps {  
+            //sh 'npm run test'
           }
         }
         stage('Create Build Artifacts') {
@@ -49,16 +41,13 @@ pipeline {
       }
     }
 
-stage('Production') {
-  steps {
-    withAWS(region:"$region",credentials:"$aws_credential") {
-      sh 'aws s3 sync $repo_path s3://houzez-app-sylvon/ --exclude "$exclude_file"'
-      
-//     s3Delete(bucket: "${bucket}", path:'**/*')
-//     s3Upload(bucket: "${bucket}", includePathPattern:'**/*');
-//     s3Upload(bucket: "${bucket}", workingDir:'targetDir', includePathPattern:'**/*');
+    stage('Upload') {
+        steps {
+            echo 'Deploying to AWS s3 bucket.'
+            withAWS(region:'ap-southeast-2',credentials:'9f5a5bbb-f9c9-45ff-abcc-45157ed47fcc') {
+                sh 'aws s3 cp index.html s3://skye20221020tf'
             }
-          }
-        }
+        };
     }
+  }    
 }
