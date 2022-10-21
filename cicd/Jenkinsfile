@@ -29,7 +29,7 @@ pipeline {
     stage('Test and Build') {
       parallel {
         stage('Run Tests') {
-          steps {  
+          //steps {  
             //sh 'npm run test'
           }
         }
