@@ -17,8 +17,7 @@ jobs:
   condition: or(eq(variables['Build.Reason'], 'Manual'),or(eq(variables['Build.Reason'], 'PullRequest'),eq(variables['Build.Reason'], 'IndividualCI')))
   pool:
     name: default
-  variables:
-  - group: Azure-Static-Web-Apps-red-sky-064630800-variable-group
+  
   steps:
   - checkout: self
     submodules: true
